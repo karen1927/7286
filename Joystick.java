@@ -133,13 +133,8 @@ public class AutoPractice extends OpMode
             // write the values to the motors
 
 
-            hangArm.setPower(powerHang);//set motor values to power retireived from remote
-            motorRight.setPower(left);
-            motorLeft.setPower(left);
 
-            motorRight.setPower(right);
-            motorLeft.setPower(right);
-            leadScrew.setPower(powerScrew);
+           // leadScrew.setPower(powerScrew);
             /*
              * Code to run ONCE when the driver hits PLAY
              */
