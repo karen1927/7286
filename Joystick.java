@@ -75,19 +75,8 @@ public class Joystick extends OpMode
 
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        public class Joystick extends OpMode
-        {
-            /* Declare OpMode members. */
-
-            // private DcMotor leftMotor = null;
-            // private DcMotor rightMotor = null;
-
-            /*
-             * Code to run ONCE when the driver hits INIT
-             */
-            @Override{
-                public void init()
-                telemetry.addData("Status", "Initialized");
+      
+         }
 
        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
         * to 'get' must correspond to the names assigned during the robot configuration
@@ -141,10 +130,15 @@ public class Joystick extends OpMode
                 // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
                 // leftMotor.setPower(-gamepad1.left_stick_y);
                 // rightMotor.setPower(-gamepad1.right_stick_y);
-                
-                 float left = -gamepad1.left_stick_y;//gets information from joystick
-            float right = -gamepad1.right_stick_y;
-          
+              
+               float left = -gamepad1.left_stick_y;//gets information from joystick
+                  float right = -gamepad1.right_stick_y;
+          right = Range.clip(right, -1, 1);//clips values into section
+		left = Range.clip(left, -1, 1);
+		
+		// scale the joystick value to make it easier to control
+		// the robot more precisely at slower speeds.
+
             right = (float)scaleInput(right);
             left =  (float)scaleInput(left);
             left = (float) (left*.9);
@@ -155,9 +149,18 @@ public class Joystick extends OpMode
             /*
              * Code to run ONCE after the driver hits STOP
              */
-            @Override
+           
+          motor1.setPower(right);
+          motor2.setPower(left);
+           
+          @Override
             public void stop() {
-            }double scaleInput(double dVal)  {
+            }
+            
+            
+            
+            
+            double scaleInput(double dVal)  {
             double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                     0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
 
@@ -188,6 +191,4 @@ public class Joystick extends OpMode
 
         }
 
-    public DcMotor getMotor1() {
-        return motor1;
-         return motor2;
+  
