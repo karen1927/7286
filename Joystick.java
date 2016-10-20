@@ -93,8 +93,10 @@ public class Joystick extends OpMode
         * to 'get' must correspond to the names assigned during the robot configuration
         * step (using the FTC Robot Controller app on the phone).
         */
-                // leftMotor  = hardwareMap.dcMotor.get("left motor");
-                // rightMotor = hardwareMap.dcMotor.get("right motor");
+                motor1 = hardwareMap.dcMotor.get("motorRight");//left wheels
+                motor2 = hardwareMap.dcMotor.get("motorLeft");
+                
+                motor2.setDirection(DcMotor.Direction.REVERSE);
 
                 // eg: Set the drive motor directions:
                 // Reverse the motor that runs backwards when connected directly to the battery
@@ -102,23 +104,9 @@ public class Joystick extends OpMode
                 //  rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
                 // telemetry.addData("Status", "Initialized");
             }
-            motor1 = hardwareMap.dcMotor.get("motorRight");//left wheels
-            motor2 = hardwareMap.dcMotor.get("motorLeft");
+          
 
-            motor1.setDirection(DcMotor.Direction.REVERSE);//reversed because the motors flipped
-            motor2.setDirection(DcMotor.Direction.REVERSE);
-
-
-
-            tiltLeft = hardwareMap.servo.get("tiltLeft");
-            tiltRight = hardwareMap.servo.get("tiltRight");
-            holdLeft = hardwareMap.servo.get("holdLeft"); t
-                holdRight = hardwareMap.servo.get("holdRight");
-
-
-
-            holdLeft.setPosition(.5);//sets initial hook position
-            holdRight.setPosition(.5);
+          
 
 
 
@@ -127,16 +115,9 @@ public class Joystick extends OpMode
              */
             @Override
             public void init_loop() {
-            } float left = -gamepad1.left_stick_y;//gets information from joystick
-            float right = -gamepad1.right_stick_y;
-            float powerScrew = -gamepad2.left_stick_y;
-            float powerHang = -gamepad2.right_stick_y;
-            //powerHang =  (float)scaleInput(powerHang); //scales input
-            right = (float)scaleInput(right);
-            left =  (float)scaleInput(left);
-            left = (float) (left*.9);
-            right = (float) (right*.9);
-            powerScrew = (float)scaleInput(powerScrew);
+            } 
+            
+           
             // write the values to the motors
 
 
@@ -160,6 +141,15 @@ public class Joystick extends OpMode
                 // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
                 // leftMotor.setPower(-gamepad1.left_stick_y);
                 // rightMotor.setPower(-gamepad1.right_stick_y);
+                
+                 float left = -gamepad1.left_stick_y;//gets information from joystick
+            float right = -gamepad1.right_stick_y;
+          
+            right = (float)scaleInput(right);
+            left =  (float)scaleInput(left);
+            left = (float) (left*.9);
+            right = (float) (right*.9);
+          
             }
 
             /*
