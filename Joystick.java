@@ -42,25 +42,32 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE./**
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 @Disabled
-public class AutoPractice extends OpMode
+public class Joystick extends OpMode
 {
     /* Public OpMode members. */
     public DcMotor motor1;
-            DcMotor motor2
+    public DcMotor motor2;
     /* Constructor */
-    public AutoPractice() {
-    }
+ 
 
     /* Initialize standard Hardware interfaces */
+    @Override
     public void init() {
         // save reference to HW Map
+        
 
         motor1=hardwareMap.dcMotor.get("motor_1");
+        motor2=hardwareMap.dcMotor.get("motor_2);
 
         motor1.setPower(.5);
         motor2.setPower(.5);
