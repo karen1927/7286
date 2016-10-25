@@ -64,7 +64,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      * makes updates to the SDK harder to integrate into your code.
      *
      * @param manager the object which contains methods for carrying out OpMode registrations
-     * @see com.qualcomm.robotcore.eventloop.opmode.TeleOp
+     * @see TeleOp
      * @see com.qualcomm.robotcore.eventloop.opmode.Autonomous
      */
     public void register(OpModeManager manager) {
