@@ -16,6 +16,7 @@ public  class LeadScrew extends OpMode {
         /* Constructor */
 
 
+
     /* Initialize standard Hardware interfaces */
     @Override
     public void init() {
@@ -31,8 +32,6 @@ public  class LeadScrew extends OpMode {
 
         leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leadscrew2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        leadscrew2.setDirection(DcMotor.Direction.REVERSE);
 
 
     }
@@ -76,21 +75,19 @@ public  class LeadScrew extends OpMode {
         // leftMotor.setPower(-gamepad1.left_stick_y);
         // rightMotor.setPower(-gamepad1.right_stick_y);
 
-        float left = -gamepad1.left_stick_y;//gets information from joystick
-        float right = -gamepad1.right_stick_y;
-        right = Range.clip(right, -1, 1);//clips values into section
-        left = Range.clip(left, -1, 1);
+        float screwpower = -gamepad1.right_stick_y;
+        screwpower = Range.clip(screwpower, -1, 1);//clips values into section
+
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
 
-        right = (float)scaleInput(right);
-        left =  (float)scaleInput(left);
-        left = (float) (left*.9);
-        right = (float) (right*.9);
+        screwpower = (float)scaleInput(screwpower);
 
-        leadscrew1.setPower(right);
-        leadscrew2.setPower(left);
+        screwpower = (float) (screwpower*.9);
+
+        leadscrew1.setPower(screwpower);
+        leadscrew2.setPower(screwpower);
     }
 
                 /*
