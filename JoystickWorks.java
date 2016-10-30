@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -23,18 +23,6 @@ public  class JoystickWorks extends OpMode {
         // save reference to HW Map
 
 
-        motor1=hardwareMap.dcMotor.get("motor_1");
-        motor2=hardwareMap.dcMotor.get("motor_2");
-
-        motor1.setPower(0);
-        motor2.setPower(0);
-
-
-        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        motor2.setDirection(DcMotor.Direction.REVERSE);
-
 
     }
 
@@ -51,6 +39,16 @@ public  class JoystickWorks extends OpMode {
      */
     @Override
     public void init_loop() {
+        motor1=hardwareMap.dcMotor.get("motor_1");
+        motor2=hardwareMap.dcMotor.get("motor_2");
+
+        motor1.setPower(0);
+        motor2.setPower(0);
+
+
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
 
@@ -90,7 +88,7 @@ public  class JoystickWorks extends OpMode {
         left = (float) (left*.9);
         right = (float) (right*.9);
 
-        motor1.setPower(right);
+        motor1.setPower(right); //Motor one goes counter clockwise//
         motor2.setPower(left);
     }
 
