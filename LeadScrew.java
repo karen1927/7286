@@ -1,5 +1,5 @@
 
-package org.firstinspires;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.Range;
 public  class LeadScrew extends OpMode {
     /* Public OpMode members. */
     public DcMotor leadscrew1;
-    public DcMotor leadscrew2;
         /* Constructor */
 
 
@@ -24,15 +23,11 @@ public  class LeadScrew extends OpMode {
 
 
         leadscrew1=hardwareMap.dcMotor.get("leadscrew_1");
-        leadscrew2=hardwareMap.dcMotor.get("leadscrew_2");
 
         leadscrew1.setPower(0);
-        leadscrew2.setPower(0);
 
 
         leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leadscrew2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 
     }
 
@@ -87,7 +82,6 @@ public  class LeadScrew extends OpMode {
         screwpower = (float) (screwpower*.9);
 
         leadscrew1.setPower(screwpower);
-        leadscrew2.setPower(screwpower);
     }
 
                 /*
