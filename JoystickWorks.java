@@ -1,5 +1,5 @@
 
-package org.firstinspires;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -49,6 +49,8 @@ public  class JoystickWorks extends OpMode {
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        motor2.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
 
@@ -78,7 +80,7 @@ public  class JoystickWorks extends OpMode {
         float left = -gamepad1.left_stick_y;//gets information from joystick
         float right = -gamepad1.right_stick_y;
         right = Range.clip(right, -1, 1);//clips values into section
-        left = Range.clip(left, -1, 1);
+        left = Range.clip(left, 1, -1);
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
@@ -110,6 +112,7 @@ public  class JoystickWorks extends OpMode {
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
         // get the corresponding index for the scaleInput array.
         int index = (int) (dVal * 16.0);
+
 
         // index should be positive.
         if (index < 0) {
