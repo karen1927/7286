@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package org.firstinspires;
+package org.firstinspires.ftc.teamcode;
 
 import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.AnnotatedOpModeRegistrar;
@@ -83,7 +83,9 @@ public class FtcOpModeRegister implements OpModeRegister {
          * Any manual OpMode class registrations should go here.
          */
         manager.register("run first", JoystickWorks.class);
-        manager.register("run second", LeadScrew.class);
+        manager.register("run second", AutoPractice.class);
+        manager.register("Linear", LinearOpmode.class);
+        manager.register("Screw", LeadScrew.class);
     }
 }
     /**
