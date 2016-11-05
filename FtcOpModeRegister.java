@@ -84,8 +84,8 @@ public class FtcOpModeRegister implements OpModeRegister {
          */
         manager.register("run first", JoystickWorks.class);
         manager.register("run second", AutoPractice.class);
-        manager.register("Linear", LinearOpmode.class);
         manager.register("Screw", LeadScrew.class);
+        manager.register("TeleOp", TeleOp.class);
     }
 }
     /**
