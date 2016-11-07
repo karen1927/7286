@@ -35,6 +35,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -49,8 +54,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Linear", group="LinearOpmode")  // @Autonomous(...) is the other common choice
-public class LinearOpmode extends OpMode
+@TeleOp(name="Linear", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+public class LinearOpMode extends OpMode
 {
     //Declare the motors being used and a timer called "time"
     DcMotor motor1;//Declare Motors for Drive Train
@@ -76,10 +81,10 @@ public class LinearOpmode extends OpMode
 
     }
 
-    @Override
+
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
-        telemetry.update()
+        telemetry.update();}
 
     public void loop()
     {
@@ -112,20 +117,20 @@ public class LinearOpmode extends OpMode
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        // leftMotor  = hardwareMap.dcMotor.get("left motor");
-        // rightMotor = hardwareMap.dcMotor.get("right motor");
+            // leftMotor  = hardwareMap.dcMotor.get("left motor");
+            // rightMotor = hardwareMap.dcMotor.get("right motor");
 
-        // eg: Set the drive motor directions:
-        // "Reverse" the motor that runs backwards when connected directly to the battery
-        // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+            // eg: Set the drive motor directions:
+            // "Reverse" the motor that runs backwards when connected directly to the battery
+            // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+            // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
-        // Wait for the game to start (driver presses PLAY)
+            // Wait for the game to start (driver presses PLAY)
 
-        waitForStart();
+            waitForStart();
 
 
-        runtime.reset();
+            runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
