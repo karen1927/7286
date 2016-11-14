@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Screw", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@Disabled
 public  class LeadScrew extends OpMode {
     /* Public OpMode members. */
     public DcMotor leadscrew1;
@@ -103,6 +104,7 @@ public  class LeadScrew extends OpMode {
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
         // get the corresponding index for the scaleInput array.
         int index = (int) (dVal * 16.0);
+
 
         // index should be positive.
         if (index < 0) {

@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
-@TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+
+@TeleOp(name="run first", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 @Disabled
 public  class JoystickWorks extends OpMode {
     /* Public OpMode members. */
@@ -21,6 +22,16 @@ public  class JoystickWorks extends OpMode {
     @Override
     public void init() {
         // save reference to HW Map
+        motor1=hardwareMap.dcMotor.get("motor_1");
+        motor2=hardwareMap.dcMotor.get("motor_2");
+
+        motor1.setPower(0);
+        motor2.setPower(0);
+
+
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -39,17 +50,6 @@ public  class JoystickWorks extends OpMode {
      */
     @Override
     public void init_loop() {
-        motor1=hardwareMap.dcMotor.get("motor_1");
-        motor2=hardwareMap.dcMotor.get("motor_2");
-
-        motor1.setPower(0);
-        motor2.setPower(0);
-
-
-        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        motor2.setDirection(DcMotor.Direction.REVERSE);
 
     }
 

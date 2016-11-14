@@ -23,21 +23,10 @@ public class Tele extends OpMode {
 
 
 
-
         @Override
         public void init(){
             // save reference to HW Map
 
-
-
-        }
-
-
-
-
-
-        @Override
-        public void init_loop() {
             motor1=hardwareMap.dcMotor.get("motor_1");
             motor2=hardwareMap.dcMotor.get("motor_2");
             leadscrew1=hardwareMap.dcMotor.get("leadscrew_1");
@@ -51,6 +40,16 @@ public class Tele extends OpMode {
             leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             motor2.setDirection(DcMotor.Direction.REVERSE);
+
+
+        }
+
+
+
+
+
+        @Override
+        public void init_loop() {
 
 
 
@@ -77,11 +76,10 @@ public class Tele extends OpMode {
             float right = -gamepad1.right_stick_y;
             float screwpower = -gamepad2.right_stick_y;
             right = Range.clip(right, -1, 1);//clips values into section
-            left = Range.clip(left, 1, -1);
+            left = Range.clip(left, -1, 1);
             screwpower = Range.clip(screwpower, -1, 1);
             // scale the joystick value to make it easier to control
             // the robot more precisely at slower speeds.
-
             right = (float)scaleInput(right);
             left =  (float)scaleInput(left);
             left = (float) (left*.9);
