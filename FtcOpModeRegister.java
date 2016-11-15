@@ -87,6 +87,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Screw", LeadScrew.class);
         manager.register("TeleOp", Tele.class);
         manager.register("Linear", Linear.class);
+        manager.register("Intake", intake.class);
     }
 }
     /**
