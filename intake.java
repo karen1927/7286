@@ -71,17 +71,20 @@ public void loop() {
         // leftMotor.setPower(-gamepad1.left_stick_y);
         // rightMotor.setPower(-gamepad1.right_stick_y);
 
-        float roll = -gamepad2.left_stick_y;
-        roll = Range.clip(roll, -1, 1);//clips values into section
-
+        float elleft = -gamepad2.left_stick_y;
+        float  elright= -gamepad2.right_stick_y;
+        elleft = Range.clip(elleft, -1, 1);//clips values into section
+        elright = Range.clip(elright, -1, 1);//clips values into section
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
 
-        roll = (float)scaleInput(roll);
+    elleft = (float)scaleInput(elleft);
 
-        roll = (float) (roll*.9);
+    elleft = (float) (elleft*.9);
+    roll = (float)scaleInput(roll);
 
+    roll = (float) (roll*.9);
         intake1.setPower(roll);
         }
 
