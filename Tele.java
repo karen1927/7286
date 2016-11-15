@@ -14,6 +14,7 @@ public class Tele extends OpMode {
     public DcMotor motor1;
     public DcMotor motor2;
     public DcMotor leadscrew1;
+    public DcMotor intake1;
         /* Constructor */  /* Constructor */
 
 
@@ -30,14 +31,17 @@ public class Tele extends OpMode {
             motor1=hardwareMap.dcMotor.get("motor_1");
             motor2=hardwareMap.dcMotor.get("motor_2");
             leadscrew1=hardwareMap.dcMotor.get("leadscrew_1");
+            intake1=hardwareMap.dcMotor.get("intake_1");
 
             motor1.setPower(0);
             motor2.setPower(0);
             leadscrew1.setPower(0);
+            intake1.setPower(0);
 
             motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            intake1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             motor2.setDirection(DcMotor.Direction.REVERSE);
 
@@ -75,9 +79,12 @@ public class Tele extends OpMode {
             float left = -gamepad1.left_stick_y;//gets information from joystick
             float right = -gamepad1.right_stick_y;
             float screwpower = -gamepad2.right_stick_y;
+            float roll = -gamepad2.left_stick_y;
+
             right = Range.clip(right, -1, 1);//clips values into section
             left = Range.clip(left, -1, 1);
             screwpower = Range.clip(screwpower, -1, 1);
+            roll = Range.clip(roll, -1, 1);
             // scale the joystick value to make it easier to control
             // the robot more precisely at slower speeds.
             right = (float)scaleInput(right);
@@ -86,9 +93,13 @@ public class Tele extends OpMode {
             right = (float) (right*.9);
             screwpower = (float) (screwpower*.9);
             screwpower = (float)scaleInput(screwpower);
+            roll = (float)scaleInput(roll);
+            roll = (float) (roll*.9);
+
             motor1.setPower(right); //Motor one goes counter clockwise//
             motor2.setPower(left);
             leadscrew1.setPower(screwpower);
+            intake1.setPower(roll);
         }
         @Override
         public void stop() {
