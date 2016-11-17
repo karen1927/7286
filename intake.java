@@ -8,14 +8,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
  @TeleOp(name="Intake", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
  @Disabled
  public  class intake extends OpMode {
      /* Public OpMode members. */
+     private ElapsedTime runtime = new ElapsedTime();
      public DcMotor  leftintake;
      public DcMotor rightintake;
-        /* Constructor */
+     int count = 0;
+     double currentTime = 0;
+     ElapsedTime time;
+
+     /* Constructor */
      /* Initialize standard Hardware interfaces */
      @Override
      public void init() {
@@ -64,13 +70,35 @@ import com.qualcomm.robotcore.util.Range;
          // rightMotor.setPower(-gamepad1.right_stick_y);
 
 
-         if (gamepad1.a) {
-             leftintake.setPower(1);
-             rightintake.setPower(1);
-         } else if (gamepad1.b) {
-             leftintake.setPower(-1);
-             rightintake.setPower(-1);
-         } else {
+
+         time = new ElapsedTime();
+
+         if (gamepad1.right_bumper)
+         {
+             runtime.reset();//time is 0
+             while(currentTime<.01) //while current time < set period of time
+             {
+                 leftintake.setPower(1);
+                 rightintake.setPower(1);
+             }//will do this action for set period of time
+             leftintake.setPower(0);
+             rightintake.setPower(0);
+         }
+         else if (gamepad1.left_bumper)
+         {
+             runtime.reset();//time is 0
+             while(currentTime< .01) //while current time < set period of time
+             {
+
+                 leftintake.setPower(-1);
+                 rightintake.setPower(-1);
+
+
+         }
+             leftintake.setPower(0);
+             rightintake.setPower(0);
+         }
+         else {
              leftintake.setPower(0);
              rightintake.setPower(0);
          }
