@@ -41,8 +41,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-/*
- *
+
  * This is an example LinearOpMode that shows how to use
  * a Modern Robotics Color Sensor.
  *
