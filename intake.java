@@ -42,6 +42,8 @@ import com.qualcomm.robotcore.hardware.ServoController;
          rightintake.setPower(0);
          leftintake.setPower(0);
 
+         serveleft.setPosition(.45);//sets to initial position
+         serveright.setPosition(.45);
 
          rightintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
          leftintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -50,6 +52,7 @@ import com.qualcomm.robotcore.hardware.ServoController;
          double  serveleft;//Declares values for initial screw position
          double  serveright;
          // amount to change the claw servo position by
+
      }
 
 
@@ -85,60 +88,20 @@ import com.qualcomm.robotcore.hardware.ServoController;
          // rightMotor.setPower(-gamepad1.right_stick_y);
 
 
-
          time = new ElapsedTime();
 
-         if (gamepad1.right_bumper)
-         {
+         if (gamepad1.right_bumper) {
              runtime.reset();//time is 0
-             while(currentTime<.01) //while current time < set period of time
+             while (currentTime < .01) //while current time < set period of time
              {
                  leftintake.setPower(1);
                  rightintake.setPower(1);
              }//will do this action for set period of time
              leftintake.setPower(0);
              rightintake.setPower(0);
-         }
-         else if (gamepad1.left_bumper)
-         {
+         } else if (gamepad1.left_bumper) {
              runtime.reset();//time is 0
-             while(currentTime< .01) //while current time < set period of time
-             {
-
-                 leftintake.setPower(-1);
-                 rightintake.setPower(-1);
-
-
-         }
-             leftintake.setPower(0);
-             rightintake.setPower(0);
-         }
-             else {
-                 leftintake.setPower(0);
-                 rightintake.setPower(0);
-         }
-     /*
-                 * Code to run ONCE after the driver hits STOP
-                 */
-         if (gamepad1.a)
-         {
-             serveleftt.setPosition(.45);
-             serveright.setPosition(.45);
-         }
-         serveleftt.setPosition(0);
-         serveright.setPosition(0);
-         else if(gamepad1.b)
-{
-    serveleftt.setPosition(-.45);
-    serveright.setPosition(-.45);
-}
-         serveleftt.setPosition(0);
-         serveright.setPosition(0);
-
-         else if (gamepad1.left_bumper)
-         {
-             runtime.reset();//time is 0
-             while(currentTime< .01) //while current time < set period of time
+             while (currentTime < .01) //while current time < set period of time
              {
 
                  leftintake.setPower(-1);
@@ -148,42 +111,55 @@ import com.qualcomm.robotcore.hardware.ServoController;
              }
              leftintake.setPower(0);
              rightintake.setPower(0);
-         }
-         else {
+         } else {
              leftintake.setPower(0);
              rightintake.setPower(0);
          }
+     /*
+                 * Code to run ONCE after the driver hits STOP
+                 */
+         if (gamepad2.a) {
+             serveleft.setPosition(-.45);
+             serveright.setPosition(.45);
+         }
+
+         if (gamepad2.b) {
+             serveleft.setPosition(.45);
+             serveright.setPosition(-.45);
+         }
+     }
 //
 
-      // if (gamepad1.a)
-  //     { serveleft.setPower(1);
-    //       serveleft.setPower(1);
+         // if (gamepad1.a)
+         //     { serveleft.setPower(1);
+         //       serveleft.setPower(1);
 //           }//will do this action for set period of time
          //  leftintake.setPower(0);
          //  rightintake.setPower(0);
-       //}
-      // else if (gamepad1.b)
-     //  {
-           //runtime.reset();//time is 0
-      //     while(currentTime< .01) //while current time < set period of time
-       //    {
+         //}
+         // else if (gamepad1.b)
+         //  {
+         //runtime.reset();//time is 0
+         //     while(currentTime< .01) //while current time < set period of time
+         //    {
 
          //      leftintake.setPower(-1);
-           //    rightintake.setPower(-1);
+         //    rightintake.setPower(-1);
 
 
-            //
-           //leftintake.setPower(0);
-          // rightintake.setPower(0);
-      // }
-       //else {
+         //
+         //leftintake.setPower(0);
+         // rightintake.setPower(0);
+         // }
+         //else {
          //  leftintake.setPower(0);
-       //    rightintake.setPower(0);
-      // }//
-   //}
+         //    rightintake.setPower(0);
+         // }//
+         //}
+
          @Override
-         public void stop() {
+         public void stop () {
          }
 
 
-     }
+         }
