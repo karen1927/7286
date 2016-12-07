@@ -72,7 +72,7 @@ public  class LeadScrew extends OpMode {
         // leftMotor.setPower(-gamepad1.left_stick_y);
         // rightMotor.setPower(-gamepad1.right_stick_y);
 
-        float screwpower = -gamepad1.right_stick_y;
+        float screwpower= -gamepad2.left_stick_y;
         screwpower = Range.clip(screwpower, -1, 1);//clips values into section
 
 
@@ -86,7 +86,21 @@ public  class LeadScrew extends OpMode {
         leadscrew1.setPower(screwpower);
     }
 
-                /*
+    /*       if (gamepad1.right_bumper) {
+            {
+                float screwpower = -gamepad2.left_stick_y;
+                screwpower = Range.clip(screwpower, -1, 1);
+
+                screwpower = (float)scaleInput(screwpower);
+
+                screwpower = (float) (screwpower*.9);
+
+                leadscrew1.setPower(screwpower);
+            }
+
+        }
+    }
+} this is a work in progress for a button to be sensitive to pressing
                  * Code to run ONCE after the driver hits STOP
                  */
 

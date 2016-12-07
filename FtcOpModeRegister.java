@@ -88,7 +88,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Linear", Linear.class);
      /*   manager.register("Intake", intake.class);*/
         manager.register("Sensor",SensorMRColor.class);
-        manager.register("DcIntake",Rollers.class);
+        manager.register("DcIntake",DcRollers.class);
 
     }
 }
