@@ -60,26 +60,20 @@ public class DcRollers extends OpMode {
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
             float rollLeft = -gamepad2.left_stick_y;
-            float rollRight = -gamepad2.right_stick_y;
-            rollRight = Range.clip(rollRight, -1, 1);//clips values into section
+
             rollLeft = Range.clip(rollLeft, -1, 1);//clips values into section
-
-
-
 
 
             // scale the joystick value to make it easier to control
             // the robot more precisely at slower speeds.
 
-          rollRight = (float)scaleInput(rollRight);
+
             rollLeft = (float)scaleInput(rollLeft);
 
             rollLeft = (float) (rollLeft*.9);
-            rollRight = (float) (rollRight*.9);
 
-            rollOne.setPower(rollRight);
             rollTwo.setPower(rollLeft);
-
+            rollOne.setPower(rollLeft);
         }
 
     @Override

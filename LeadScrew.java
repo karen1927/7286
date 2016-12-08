@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Screw", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
+
 public  class LeadScrew extends OpMode {
     /* Public OpMode members. */
     public DcMotor leadscrew1;
