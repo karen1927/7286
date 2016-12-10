@@ -58,21 +58,21 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 @Disabled
 public class SensorMRColor extends LinearOpMode {
 
-  ColorSensor color;    // Hardware Device Object
+  ColorSensor color;  //*need  // Hardware Device Object
 
 
   @Override
   public void runOpMode() throws InterruptedException {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
-    float hsvValues[] = {0F,0F,0F};
+    float hsvValues[] = {0F,0F,0F}; //*need
 
     // values is a reference to the hsvValues array.
-    final float values[] = hsvValues;
+    final float values[] = hsvValues; //*need
 
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
-    final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(R.id.RelativeLayout);
+    final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(R.id.RelativeLayout); //*need
 
     // bPrevState and bCurrState represent the previous and current state of the button.
     boolean bPrevState = false;
@@ -82,10 +82,10 @@ public class SensorMRColor extends LinearOpMode {
     boolean bLedOn = true;
 
     // get a reference to our ColorSensor object.
-    color = hardwareMap.colorSensor.get("color sensor");
+    color = hardwareMap.colorSensor.get("color sensor"); //*need
 
     // Set the LED in the beginning
-    color.enableLed(bLedOn);
+    color.enableLed(bLedOn); //*need    (TRUE)
 
     // wait for the start button to be pressed.
     waitForStart();
@@ -109,7 +109,7 @@ public class SensorMRColor extends LinearOpMode {
       bPrevState = bCurrState;
 
       // convert the RGB values to HSV values.
-      Color.RGBToHSV(color.red() * 8, color.green() * 8, color.blue() * 8, hsvValues);
+      Color.RGBToHSV(color.red() * 8, color.green() * 8, color.blue() * 8, hsvValues); //*need
 
       // send the info back to driver station using telemetry function.
       telemetry.addData("LED", bLedOn ? "On" : "Off");

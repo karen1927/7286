@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 @TeleOp(name="Servo", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
+
 public  class servo extends OpMode {
     /* Public OpMode members. */
 
@@ -33,7 +33,8 @@ public  class servo extends OpMode {
     @Override
     public void init() {
         // save reference to HW Map
-
+        screwController = hardwareMap.servoController.get("servoController");//creats servoControler
+        screwController.pwmEnable();
 
         serveleft = hardwareMap.servo.get("servo_1");
         serveright = hardwareMap.servo.get("servo_2");
@@ -42,10 +43,8 @@ public  class servo extends OpMode {
         serveleft.setPosition(.45);//sets to initial position
         serveright.setPosition(.45);
 
-        screwController = hardwareMap.servoController.get("servoController");//creats servoControler
-        screwController.pwmEnable();
-        double serveleft;//Declares values for initial screw position
-        double serveright;
+
+
         // amount to change the claw servo position by
 
     }

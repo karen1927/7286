@@ -86,7 +86,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Screw", LeadScrew.class);
        /* manager.register("TeleOp", Tele.class);*/
         manager.register("Linear", Linear.class);
-        manager.register("Sensor", servo.class);
+        manager.register("Servo", servo.class);
      /*   manager.register("Intake", intake.class);*/
         manager.register("Sensor",SensorMRColor.class);
         manager.register("DcIntake",DcRollers.class);
