@@ -20,7 +20,7 @@ public class Tele extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor  leftintake;
     public DcMotor rightintake;
-    public Servo serveleft;//Declares servo hooks on front for bars
+    public Servo serveleft;
     public DcMotor rollOne;
     public DcMotor rollTwo;
 
@@ -175,9 +175,7 @@ public class Tele extends OpMode {
                 leftintake.setPower(0);
                 rightintake.setPower(0);
             }
-     /*
-                 * Code to run ONCE after the driver hits STOP
-                 */
+
             if (gamepad2.a) {
                 serveleft.setPosition(-.45);
                 serveright.setPosition(.45);
