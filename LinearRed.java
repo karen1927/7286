@@ -19,7 +19,7 @@
         DcMotor motor2;
         ColorSensor color;    // Hardware Device Object
         int count = 0;
-        boolean sense = false;
+        boolean red = true
 
         double currentTime = 0;
         ElapsedTime time;
@@ -80,14 +80,17 @@
 
                 }
                 if (count == 4) {
+                    motor1.setPower(.5);
+                    motor2.setPower(.1);
+                }
+                if (count == 5) {
+                    motor1.setPower(.1);
+                    motor2.setPower(.3);
+                }
+                if (count==6) {
                     motor1.setPower(.1);
                     motor2.setPower(.5);
                 }
-                if (count == 5) {
-                    motor1.setPower(.3);
-                    motor2.setPower(.1);
-                }
-
                 if (count == 3)//color sensorruns// cant use counts in this section
                 {
                     colorTime.reset();
@@ -95,26 +98,28 @@
                     colorTimer = colorTime.time();
 
 
-                    if (color.red() <33) ;//compare color.red()> threshold value
+                    if (red== true )//compare color.red()> threshold value
                     {
 
-                        if (5< currentTime && colorTime.time() <0)
+                        count = 1; // titls to the left a bit
+
+                        else ();
                         {
                             count = 5;
                         }
-                        else ()
-                        {
 
                     }
                     }
 
-                    // else
+                count
+
+                    /* else
                     {
                         //  hit other button)
                     }
 
                 }
-
+*/
 
          /*       if(currentTime>0 && !sense) {
                     count = 3;
@@ -182,8 +187,19 @@ tilt == false
                  {
                     count = 2;
                 }
-                if(5.5 < currentTime && currentTime < 17 )
-                { count =
+                if(5.5 < currentTime && currentTime < 5.6 )
+                { count =0
+                }
+                if(5.7< currentTime && currentTime < 6.0 )
+                { count =6
+                }
+                if(6.0< currentTime && currentTime < 6.1 )
+                { count =0
+                }if(6.2< currentTime && currentTime < 7)
+                { count =1
+                }
+                if(7.0< currentTime && currentTime < 7.1)
+                { count =0
                 }
 
                 telemetry.update();

@@ -87,6 +87,7 @@ public class Tele extends OpMode {
 
 
             motor2.setDirection(DcMotor.Direction.REVERSE);
+            leftintake.setDirection(DcMotor.Direction.REVERSE);
 
 
         }
