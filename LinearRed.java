@@ -137,7 +137,7 @@ if (color.red()>33 )
                 }
 
 
-       /*
+       
                 if (.5 < currentTime && currentTime < 5 && tilt ==true)//turn right after moving forward
                 {
                     count = 1;
