@@ -125,20 +125,20 @@ if (color.red()>33 )
                     count = 3;
                     sense = true;
                 }
-                if (0 < currentTime && currentTime < .5&& color sensed == false)//turn right after moving forward
+                if (0 < currentTime && currentTime < .5&& color sensed == false)//turn left after moving forward
                 {
-                    count = 1;
-                       tilt( true or false)
+                    count = 5;
+                       tilt(false)
 
 
 
 
-                    colorsensed=true
+                    colorsensed==true
                 }
 
 
        
-                if (.5 < currentTime && currentTime < 5 && tilt ==true)//turn right after moving forward
+                if (.5 < currentTime && currentTime < 5 && tilt ==true)// move forward
                 {
                     count = 1;
 tilt == false
