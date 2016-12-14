@@ -97,7 +97,7 @@
 
                     colorTimer = colorTime.time();
 
-
+if (color.red()>33 )
                     if (red== true )//compare color.red()> threshold value
                     {
 
@@ -197,11 +197,11 @@ tilt == false
                 { count =0
                 }if(6.2< currentTime && currentTime < 7)
                 { count =1
-                }
+                } //goes forward towards the ramp
                 if(7.0< currentTime && currentTime < 7.1)
                 { count =0
-                }
-
+                }// now the front two wheels will be parked.
+               
                 telemetry.update();
                 idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
             }
