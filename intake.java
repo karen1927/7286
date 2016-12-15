@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
  @TeleOp(name="Intake", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
- @Disabled
+
  public  class intake extends OpMode {
      /* Public OpMode members. */
      private ElapsedTime runtime = new ElapsedTime();
@@ -90,30 +90,36 @@ import com.qualcomm.robotcore.hardware.ServoController;
          time = new ElapsedTime();
 
          if (gamepad1.right_bumper) {
-             runtime.reset();//time is 0
-             while (currentTime < .01) //while current time < set period of time
+
+             time.reset();//time is 0
+
+             while (time.time() < 5) //while current time < set period of time
              {
                  leftintake.setPower(1);
-                 rightintake.setPower(1);
+                 rightintake.setPower(-1);
              }//will do this action for set period of time
+
              leftintake.setPower(0);
              rightintake.setPower(0);
-         } else if (gamepad1.left_bumper) {
-             runtime.reset();//time is 0
+         }
+
+         if (gamepad1.left_bumper) {
+             //runtime.reset();//time is 0
              while (currentTime < .01) //while current time < set period of time
              {
 
                  leftintake.setPower(-1);
-                 rightintake.setPower(-1);
+                 rightintake.setPower(1);
 
 
              }
              leftintake.setPower(0);
              rightintake.setPower(0);
-         } else {
-             leftintake.setPower(0);
-             rightintake.setPower(0);
          }
+
+         leftintake.setPower(0);
+         rightintake.setPower(0);
+
      /*
                  * Code to run ONCE after the driver hits STOP
                  */
