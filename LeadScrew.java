@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Screw", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-
+@TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@Disabled
 public  class LeadScrew extends OpMode {
     /* Public OpMode members. */
     public DcMotor leadscrew1;
-
+    public DcMotor leadscrew2;
         /* Constructor */
 
 
@@ -24,14 +24,14 @@ public  class LeadScrew extends OpMode {
 
 
         leadscrew1=hardwareMap.dcMotor.get("leadscrew_1");
-
+        leadscrew2=hardwareMap.dcMotor.get("leadscrew_2");
 
         leadscrew1.setPower(0);
-
+        leadscrew2.setPower(0);
 
 
         leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        leadscrew2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -76,17 +76,18 @@ public  class LeadScrew extends OpMode {
         // rightMotor.setPower(-gamepad1.right_stick_y);
 
         float screwpower = -gamepad1.right_stick_y;
-        screwpower = Range.clip(screwpower, -1, 1);
+        screwpower = Range.clip(screwpower, -1, 1);//clips values into section
 
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
 
-        screwpower = (float) (screwpower*.9);
         screwpower = (float)scaleInput(screwpower);
 
-        leadscrew1.setPower(screwpower);
+        screwpower = (float) (screwpower*.9);
 
+        leadscrew1.setPower(screwpower);
+        leadscrew2.setPower(screwpower);
     }
 
                 /*
@@ -94,9 +95,14 @@ public  class LeadScrew extends OpMode {
                  */
 
 
+
     @Override
     public void stop() {
     }
+
+
+
+
     double scaleInput(double dVal)  {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };

@@ -16,30 +16,13 @@ public class Tele extends OpMode {
 
     public DcMotor motor1;
     public DcMotor motor2;
-    public DcMotor leadscrew1;
-    private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor  leftintake;
-    public DcMotor rightintake;
-    public Servo serveleft;
-    public DcMotor rollOne;
-    public DcMotor rollTwo;
 
-    Servo serveright;
-    int count = 0;
-    double currentTime = 0;
-    ElapsedTime time;
-    ServoController screwController;//Declares servo controller
-    //screwPosition2 = .6;
-    //screwPosition1 = .4;
-     /* Constructor */
-     /* Initialize standard Hardware interfaces */
+    public DcMotor  frontintake;
+    public DcMotor backintake;
 
-        /* Constructor */  /* Constructor */
+    public Servo pushButton;//Declares servo hooks on front for bars
 
-
-
-
-
+    ServoController servoController;//Declares servo controller
 
 
 
@@ -49,45 +32,36 @@ public class Tele extends OpMode {
 
             motor1=hardwareMap.dcMotor.get("motor_1");
             motor2=hardwareMap.dcMotor.get("motor_2");
-            leadscrew1=hardwareMap.dcMotor.get("leadscrew_1");
-            leftintake = hardwareMap.dcMotor.get("intake_1");
-            rightintake = hardwareMap.dcMotor.get("intake_2");
-            serveleft = hardwareMap.servo.get("servo_1");
-            serveright = hardwareMap.servo.get("servo_2");
-            rollOne= hardwareMap.dcMotor.get("roll_1");
-            rollTwo= hardwareMap.dcMotor.get("roll_2");
+
+            frontintake = hardwareMap.dcMotor.get("intakefront");
+            backintake = hardwareMap.dcMotor.get("intakeback");
+
+            frontintake.setPower(0);
+            backintake.setPower(0);
+
+            servoController = hardwareMap.servoController.get("servoController");//creats servoControler
+            servoController.pwmEnable();
+
+            pushButton = hardwareMap.servo.get("stick");
 
 
             motor1.setPower(0);
             motor2.setPower(0);
-            leadscrew1.setPower(0);
-            rollOne.setPower(0);
-            rollTwo.setPower(0);
-            rightintake.setPower(0);
-            leftintake.setPower(0);
-
-            serveleft.setPosition(.45);//sets to initial position
-            serveright.setPosition(.45);
+            pushButton.setPosition(0);//sets initial hook position
 
 
             motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leadscrew1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rollOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rollTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            frontintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-            screwController = hardwareMap.servoController.get("servoController");//creats servoControler
-            screwController.pwmEnable();
-            double  serveleft;//Declares values for initial screw position
-            double  serveright;
-            // amount to change the claw servo position by
+
 
 
             motor2.setDirection(DcMotor.Direction.REVERSE);
-            leftintake.setDirection(DcMotor.Direction.REVERSE);
+            backintake.setDirection(DcMotor.Direction.REVERSE);
 
 
         }
@@ -122,71 +96,53 @@ public class Tele extends OpMode {
             // rightMotor.setPower(-gamepad1.right_stick_y);
             float left = -gamepad1.left_stick_y;//gets information from joystick
             float right = -gamepad1.right_stick_y;
-            float screwpower = -gamepad2.right_stick_y;
-            float rollLeft = -gamepad2.left_stick_y;
-            rollLeft = Range.clip(rollLeft, -1, 1);//clips values into section
 
 
             right = Range.clip(right, -1, 1);//clips values into section
             left = Range.clip(left, -1, 1);
-            screwpower = Range.clip(screwpower, -1, 1);
 
             // scale the joystick value to make it easier to control
             // the robot more precisely at slower speeds.
-            rollLeft = (float)scaleInput(rollLeft);
+
             right = (float)scaleInput(right);
             left =  (float)scaleInput(left);
 
-            rollLeft = (float) (rollLeft*.9);
+
             left = (float) (left*.9);
             right = (float) (right*.9);
-            screwpower = (float) (screwpower*.9);
-            screwpower = (float)scaleInput(screwpower);
 
-            rollTwo.setPower(rollLeft);
-            rollOne.setPower(rollLeft);
+
             motor1.setPower(right); //Motor one goes counter clockwise//
             motor2.setPower(left);
-            leadscrew1.setPower(screwpower);
-
-            time = new ElapsedTime();
-
-            if (gamepad1.right_bumper) {
-                runtime.reset();//time is 0
-                while (currentTime < .01) //while current time < set period of time
-                {
-                    leftintake.setPower(1);
-                    rightintake.setPower(1);
-                }//will do this action for set period of time
-                leftintake.setPower(0);
-                rightintake.setPower(0);
-            } else if (gamepad1.left_bumper) {
-                runtime.reset();//time is 0
-                while (currentTime < .01) //while current time < set period of time
-                {
-
-                    leftintake.setPower(-1);
-                    rightintake.setPower(-1);
 
 
-                }
-                leftintake.setPower(0);
-                rightintake.setPower(0);
-            } else {
-                leftintake.setPower(0);
-                rightintake.setPower(0);
-            }
 
             if (gamepad2.a) {
-                serveleft.setPosition(-.45);
-                serveright.setPosition(.45);
+                frontintake.setPower(1); //Motor one goes counter clockwise//
+                backintake.setPower(1);
             }
 
             if (gamepad2.b) {
-                serveleft.setPosition(.45);
-                serveright.setPosition(-.45);
+                frontintake.setPower(-1); //Motor one goes counter clockwise//
+                backintake.setPower(-1);
+            }
+            if (gamepad2.x) {
+                frontintake.setPower(0); //Motor one goes counter clockwise//
+                backintake.setPower(0);
+            }
+
+
+            if (gamepad2.left_bumper) //left bumper tilts stick out
+            {
+                pushButton.setPosition(1);
+
+            }
+            if (gamepad2.right_bumper) //left bumper tilts stick back
+            {
+                pushButton.setPosition(0);
             }
         }
+
         @Override
         public void stop() {
         }
