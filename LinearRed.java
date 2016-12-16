@@ -121,6 +121,16 @@
                     motor1.setPower(0);
                     motor2.setPower(0);//time is zero
                 }
+                if (count == 8)//sharp right turn
+                {
+                    motor1.setPower(-1);
+                    motor2.setPower(1);
+                }
+                if (count == 9)//curvy left turn
+                {
+                    motor1.setPower(.75);
+                    motor2.setPower(.1);
+                }
 
 
 
@@ -158,8 +168,10 @@
                 if (1.6 < currentTime && currentTime < 1.7)//stops for .1 seconds
                 {
                     count = 7;
-
+                    pushButton.setPosition(1);//swings stick out
                 }
+
+
                 if (1.7 < currentTime && currentTime < 1.9)//going forward for .2 seconds-in front of beacon
                 {
                     count = 2;
@@ -183,11 +195,100 @@
 
                 }
 
-                if (3< currentTime && currentTime < 4 && red)
+
+
+                if (3< currentTime && currentTime < 3.1 && red)
                 {
 
+                count = 2;//goes forward for .1 seconds
                 }
+                if (3.1< currentTime && currentTime < 3.2 && red)
+                {
+
+                    count = 7;//stops for .1 seconds
                 }
+                if (3.2< currentTime && currentTime < 3.3 && red)
+                {
+
+                    count = 1;//goes backward for .1 seconds
+
+
+                }
+                if (3.3< currentTime && currentTime < 8 && red)
+                {
+
+                    count = 7; //stops for 5 seconds
+
+                }
+
+
+                if (3< currentTime && currentTime < 3.5 && !red) {
+                    count = 1;//goes backwards for .5
+                }
+
+                if (3.5< currentTime && currentTime < 3.8 && !red)
+                {
+
+                    count =8 ; //sharp right turn
+
+                }
+                if (3.8< currentTime && currentTime < 3.9 && !red)
+                {
+
+                    count =7 ; //stops for  .1 seconds
+
+                }
+                if (3.9< currentTime && currentTime < 4 && !red)
+                {
+
+                    count =9 ;// curvy left turn
+
+                }
+                if (4< currentTime && currentTime < 4.1 && !red)// stops
+                {
+
+                    count =7 ;
+
+                }
+                if (4.1< currentTime && currentTime < 4.7 && !red)// forward
+                {
+
+                    count =2 ;
+
+                }
+                if (4.7< currentTime && currentTime < 4.8 && !red)// stops for .1 seconds
+                {
+
+                    count =7 ;
+
+                }
+                if (4.8< currentTime && currentTime < 4.9 && !red)// 1 backwards
+                {
+
+                    count =1 ;
+
+                }
+
+                if (4.9< currentTime && currentTime < 5 && !red)// 1 backwarrds
+                {
+
+                    count =1 ;
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
                 telemetry.update();
                 idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
             }
