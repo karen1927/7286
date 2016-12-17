@@ -27,7 +27,7 @@
         public Servo pushButton;//Declares servo hooks on front for bars
         ServoController servoController;//Declares servo controller
 
-        ColorSensor color;  //*need  // Hardware Device Object
+       // ColorSensor color;  //*need  // Hardware Device Object
 
 
         int count = 0;
@@ -35,10 +35,10 @@
 
 
         ElapsedTime timer=  new ElapsedTime();
-        ElapsedTime colorTimer  =new ElapsedTime();;
+
 
         double currentTime = 0;
-        double currentColorTime=0;
+
 
         //Gives the Enum State a name that we can use in the code to reference the 3 actions
 
@@ -49,13 +49,11 @@
 
             motor1 = hardwareMap.dcMotor.get("motor_1");//rightwheels
             motor2 = hardwareMap.dcMotor.get("motor_2");
-            color = hardwareMap.colorSensor.get("color sensor"); //*need
-            color.enableLed(true); //*need    (TRUE)
+           // color = hardwareMap.colorSensor.get("color sensor"); //*need
+            //color.enableLed(true); //*need    (TRUE)
 
             motor2.setDirection(DcMotor.Direction.REVERSE);//reversed because the motors flipped
 
-            color = hardwareMap.colorSensor.get("color sensor");
-            color.enableLed(true); //*need    (TRUE)
 
             servoController = hardwareMap.servoController.get("servoController");//creats servoControler
             servoController.pwmEnable();
@@ -74,7 +72,7 @@
             waitForStart();//this starts when you hit play
 
             timer.reset();
-            colorTimer.reset();
+
 
 
             // while the op mode is active, loop and read the RGB data.
@@ -83,7 +81,7 @@
 
                 currentTime = timer.time();
 
-                Color.RGBToHSV(color.red() * 8, color.green() * 8, color.blue() * 8, hsvValues); //*need
+
                 if (count == 0)
                 {
                     count = 4;//time is zero
@@ -136,7 +134,7 @@
 
 
 
-                if (count == 3)//color sensorruns// cant use counts in this section
+              /*  if (count == 3)//color sensorruns// cant use counts in this section
                 {
 
                     if (color.red() > 33)
@@ -144,6 +142,7 @@
                         //code
                     }
                 }
+                */
                 if (0 < currentTime && currentTime < .5)//stop for .5 seconds
                 {
                     count = 7;
@@ -182,7 +181,7 @@
                     count = 7;
 
                 }
-                if (2 < currentTime && currentTime < 3)//checks color for 1 second
+              /*  if (2 < currentTime && currentTime < 3)//checks color for 1 second
                 {
                     if (color.red()>9)
                     {
@@ -195,7 +194,7 @@
 
                 }
 
-
+*/
 
                 if (3< currentTime && currentTime < 3.1 && red)
                 {
@@ -295,6 +294,6 @@
 
         }
 
-        }
+
 
 

@@ -18,11 +18,11 @@ public class Tele extends OpMode {
     public DcMotor motor2;
 
     public DcMotor  frontintake;
-    public DcMotor backintake;
+
 
     public Servo pushButton;//Declares servo hooks on front for bars
 
-    ServoController servoController;//Declares servo controller
+    public ServoController servoController;//Declares servo controller
 
 
 
@@ -34,10 +34,8 @@ public class Tele extends OpMode {
             motor2=hardwareMap.dcMotor.get("motor_2");
 
             frontintake = hardwareMap.dcMotor.get("intakefront");
-            backintake = hardwareMap.dcMotor.get("intakeback");
 
             frontintake.setPower(0);
-            backintake.setPower(0);
 
             servoController = hardwareMap.servoController.get("servoController");//creats servoControler
             servoController.pwmEnable();
@@ -54,14 +52,12 @@ public class Tele extends OpMode {
             motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             frontintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            backintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
 
 
-            motor2.setDirection(DcMotor.Direction.REVERSE);
-            backintake.setDirection(DcMotor.Direction.REVERSE);
+            motor1.setDirection(DcMotor.Direction.REVERSE);
 
 
         }
@@ -71,22 +67,12 @@ public class Tele extends OpMode {
 
 
         @Override
-        public void init_loop() {
-
-
-
-
-
-
-
-        }
+        public void init_loop() {}
 
 
 
         @Override
-        public void start() {
-
-        }
+        public void start() {}
 
         @Override
         public void loop() {
@@ -112,23 +98,29 @@ public class Tele extends OpMode {
             right = (float) (right*.9);
 
 
-            motor1.setPower(right); //Motor one goes counter clockwise//
-            motor2.setPower(left);
+            motor1.setPower(left); //Motor one goes counter clockwise//
+            motor2.setPower(right);
 
 
 
             if (gamepad2.a) {
+
+                //rolls in
+                telemetry.addData("Status", "button a");
+                telemetry.update();
                 frontintake.setPower(1); //Motor one goes counter clockwise//
-                backintake.setPower(1);
+
             }
 
             if (gamepad2.b) {
+                telemetry.addData("Status", "button b");
+                telemetry.update();//roll balls out
                 frontintake.setPower(-1); //Motor one goes counter clockwise//
-                backintake.setPower(-1);
+
             }
-            if (gamepad2.x) {
+            if (gamepad2.x) {//stops
                 frontintake.setPower(0); //Motor one goes counter clockwise//
-                backintake.setPower(0);
+
             }
 
 
@@ -144,8 +136,9 @@ public class Tele extends OpMode {
         }
 
         @Override
-        public void stop() {
-        }
+        public void stop() {}
+
+
     double scaleInput(double dVal)  {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
