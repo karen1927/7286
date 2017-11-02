@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 public  class JoystickWorks extends OpMode {
     /* Public OpMode members. */
     public DcMotor motor1;
-    public DcMotor motor2;
+    //public DcMotor motor2;
         /* Constructor */
 
 
@@ -23,15 +23,15 @@ public  class JoystickWorks extends OpMode {
     public void init() {
         // save reference to HW Map
         motor1=hardwareMap.dcMotor.get("motor_1");
-        motor2=hardwareMap.dcMotor.get("motor_2");
+
 
         motor1.setPower(0);
-        motor2.setPower(0);
+      //  motor2.setPower(0);
 
 
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setDirection(DcMotor.Direction.REVERSE);
+      //  motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       // motor2.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -91,7 +91,7 @@ public  class JoystickWorks extends OpMode {
         right = (float) (right*.9);
 
         motor1.setPower(right); //Motor one goes counter clockwise//
-        motor2.setPower(left);
+       // motor2.setPower(left);
     }
 
                 /*

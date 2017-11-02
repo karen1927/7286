@@ -14,15 +14,14 @@ import com.qualcomm.robotcore.util.Range;
 public class Tele extends OpMode {
     /* Public OpMode members. */
 
-    public DcMotor motor1;
-    public DcMotor motor2;
-
-    public DcMotor  frontintake;
 
 
-    public Servo pushButton;//Declares servo hooks on front for bars
+    public DcMotor  motorLift;
 
-    public ServoController servoController;//Declares servo controller
+
+  //  public Servo pushButton;//Declares servo hooks on front for bars
+
+    //public ServoController servoController;//Declares servo controller
 
 
 
@@ -30,34 +29,34 @@ public class Tele extends OpMode {
         public void init(){
             // save reference to HW Map
 
-            motor1=hardwareMap.dcMotor.get("motor_1");
-            motor2=hardwareMap.dcMotor.get("motor_2");
+          //  motor1=hardwareMap.dcMotor.get("motor_1");
+           // motor2=hardwareMap.dcMotor.get("motor_2");
 
-            frontintake = hardwareMap.dcMotor.get("intakefront");
+            motorLift = hardwareMap.dcMotor.get("intakefront");
 
-            frontintake.setPower(0);
+            motorLift.setPower(0);
 
-            servoController = hardwareMap.servoController.get("servoController");//creats servoControler
-            servoController.pwmEnable();
+           // servoController = hardwareMap.servoController.get("servoController");//creats servoControler
+           // servoController.pwmEnable();
 
-            pushButton = hardwareMap.servo.get("stick");
-
-
-            motor1.setPower(0);
-            motor2.setPower(0);
-            pushButton.setPosition(0);//sets initial hook position
+          //  pushButton = hardwareMap.servo.get("stick");
 
 
-            motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+           // motor1.setPower(0);
+           // motor2.setPower(0);
+            //pushButton.setPosition(0);//sets initial hook position
 
-            frontintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+           // motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+           // motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+            motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
-            motor1.setDirection(DcMotor.Direction.REVERSE);
+
+
+          //  motor1.setDirection(DcMotor.Direction.REVERSE);
 
 
         }
@@ -90,17 +89,16 @@ public class Tele extends OpMode {
             // scale the joystick value to make it easier to control
             // the robot more precisely at slower speeds.
 
-            right = (float)scaleInput(right);
-            left =  (float)scaleInput(left);
+            right = (float) scaleInput(right);
+            left = (float) scaleInput(left);
 
 
-            left = (float) (left*.9);
-            right = (float) (right*.9);
+            left = (float) (left * .9);
+            right = (float) (right * .9);
 
 
-            motor1.setPower(left); //Motor one goes counter clockwise//
-            motor2.setPower(right);
-
+            //  motor1.setPower(left); //Motor one goes counter clockwise//
+            // motor2.setPower(right);
 
 
             if (gamepad2.a) {
@@ -108,34 +106,34 @@ public class Tele extends OpMode {
                 //rolls in
                 telemetry.addData("Status", "button a");
                 telemetry.update();
-                frontintake.setPower(1); //Motor one goes counter clockwise//
+                motorLift.setPower(-.5);//Motor one goes counter clockwise//
 
             }
 
-            if (gamepad2.b) {
-                telemetry.addData("Status", "button b");
-                telemetry.update();//roll balls out
-                frontintake.setPower(-1); //Motor one goes counter clockwise//
 
-            }
+
             if (gamepad2.x) {//stops
-                frontintake.setPower(0); //Motor one goes counter clockwise//
+                motorLift.setPower(0); //Motor one goes counter clockwise//
 
             }
+            if (gamepad2.y) {//stops
+                motorLift.setPower(.1); //Motor one goes counter clockwise//
 
-
-            if (gamepad2.left_bumper) //left bumper tilts stick out
-            {
-                pushButton.setPosition(1);
-
-            }
-            if (gamepad2.right_bumper) //left bumper tilts stick back
-            {
-                pushButton.setPosition(0);
             }
         }
 
-        @Override
+
+            //if (gamepad2.left_bumper) //left bumper tilts stick out
+           // {
+               // pushButton.setPosition(1);
+
+           // }
+           // if (gamepad2.right_bumper) //left bumper tilts stick back
+           // {
+              //  pushButton.setPosition(0);
+           // }
+     //   }
+
         public void stop() {}
 
 
