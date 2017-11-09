@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="TeleOp", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-public class Tele extends OpMode {
+@TeleOp(name="run", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+public class AutoPractice extends OpMode {
    /* Public OpMode members. */
 
 
