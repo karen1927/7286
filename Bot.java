@@ -9,7 +9,7 @@
                 private DcMotor frontRight;
                 private DcMotor backLeft;
                 private DcMotor backRight;
-                private DcMotor lift;
+
                 public Servo pushButton;//Declares servo hooks on front for bars
 
 
@@ -18,25 +18,18 @@
 
 
 
-                //  private DcMotor frontLift;
-              //  private DcMotor backLift;
+
 
                // private DcMotor frontClaw;
                // private DcMotor backClaw;
 
-                public Bot(DcMotor fLMotor, DcMotor fRMotor, DcMotor bLMotor, DcMotor bRMotor,DcMotor lMotor){
+                public Bot(DcMotor fLMotor, DcMotor fRMotor, DcMotor bLMotor, DcMotor bRMotor){
                     frontLeft = fLMotor;
                     frontRight = fRMotor;
                     backLeft = bLMotor;
                     backRight = bRMotor;
-                    lift=lMotor;
-                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                  //  frontLift = fLift;
-                   // backLift = bLift;
 
-                    //frontClaw = fClaw;
-                    //backClaw = bClaw;
                 }
 
 
@@ -170,37 +163,8 @@
                         frontRight.setPower(speed);
                         backRight.setPower(speed);
                 }
-                public void lifting(double rotation)
-                {
-                    lift.setTargetPosition((int)(rotation*360));
-                    lift.setPower(1);
 
-                }
 
-                public void servoRotation(double rawJoystick )
-                {
-
-                }
-               // public void moveClaws(double speed){
-                     //   frontClaw.setDirection(DcMotor.Direction.FORWARD);
-                      //  backClaw.setDirection(DcMotor.Direction.REVERSE);
-
-                     //   frontClaw.setPower(speed);
-                       // backClaw.setPower(speed);
-
-              //  public void elevate(double speed){
-                      //  frontLift.setDirection(DcMotor.Direction.FORWARD);
-                       // backLift.setDirection(DcMotor.Direction.REVERSE);
-                       // frontLift.setPower(speed);
-                  //      backLift.setPower(speed);
-               // }
-               // public void descend(double speed){
-                    //frontLift.setDirection(DcMotor.Direction.FORWARD);
-                   // backLift.setDirection(DcMotor.Direction.REVERSE);
-
-                   // frontLift.setPower(speed);
-                  //  backLift.setPower(speed);
-               // }
                 public void shutdown(){
                         frontLeft.setPower(0);
                         backLeft.setPower(0);
@@ -208,10 +172,6 @@
                         frontRight.setPower(0);
                         backRight.setPower(0);
 
-                       // frontLift.setPower(0);
-                       // backLift.setPower(0);
 
-                        //frontClaw.setPower(0);
-                      //  backClaw.setPower(0);
                 }
             }

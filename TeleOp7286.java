@@ -39,6 +39,7 @@
         import com.qualcomm.robotcore.hardware.Servo;
         import com.qualcomm.robotcore.hardware.ServoController;
         import com.qualcomm.robotcore.util.ElapsedTime;
+        import com.qualcomm.robotcore.util.Range;
 
         /**
          * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -58,33 +59,38 @@
 
         public class TeleOp7286 extends OpMode
         {
-            //This is the standard run time that is displayed on the driver station
-            private ElapsedTime runtime = new ElapsedTime();
 
+
+
+            /* Declare OpMode members. */
+            Robot robot = new Robot();   // Use a Pushbot's hardware
+            private ElapsedTime runTime = new ElapsedTime();
+
+            static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: ANDYMARK Motor Encoder
+            // static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+            static final double     WHEEL_DIAMETER_INCHES   = 1.0 ;     // For figuring circumference
+            static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (3.1415);
+            static final double DRIVE_SPEED = 0.2;
+
+
+
+
+
+            private ElapsedTime runtime = new ElapsedTime();
+            public DcMotor  frontintake;
             //Initializing bot object
             private Bot turingBot;
 
-            //Variable declarations for team selection
-            private boolean teamBlue = false;
-            private boolean teamRed = false;
 
-            //Initializing servos
-            private Servo poker;
-            private Servo fBsktServo;
-            private Servo bBsktServo;
-            private ServoController servoController;
-            private DcMotor lift;
-            //Color sensor init
-            //private ColorSensor cSensor;
+
 
             @Override
             public void init() {
-                servoController = hardwareMap.servoController.get("ServoController");
-                //creates servoController
-                servoController.pwmEnable();
 
-                telemetry.addData("Status", "Initialized");
+                frontintake = hardwareMap.dcMotor.get("intakefront");
 
+                frontintake.setPower(0);
+                frontintake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //Assigning each piece of hardware names set up on the phones to initialized variables.
            /*poker = hardwareMap.servo.get("poker");
                 fBsktServo = hardwareMap.servo.get("fBsktServo");
@@ -97,31 +103,25 @@
                         hardwareMap.dcMotor.get("frontLeft"),
                         hardwareMap.dcMotor.get("frontRight"),
                         hardwareMap.dcMotor.get("backLeft"),
-                        hardwareMap.dcMotor.get("backRight"),
-                        hardwareMap.dcMotor.get("lifting")
+                        hardwareMap.dcMotor.get("backRight")
+
                 );
 
+                robot.init(hardwareMap);
 
+                // Send telemetry message to signify robot waiting;
+                telemetry.addData("Status", "Resetting Encoders");    //
+                telemetry.update();
+
+                robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
             //Team selection mechanism, initially intended for use with an assisted button pusher using the color sensor
-            @Override
+            @Override//ask what this is for
             public void init_loop()
             {
-                if(gamepad1.x) {
-                    telemetry.addData("You are team", "Blue");
-                    if(teamRed) {
-                        teamBlue = true;
-                        teamRed = false;
-                    }
-                }
-                else if(gamepad1.b) {
-                    telemetry.addData("You are team", "Red");
-                    if(teamBlue) {
-                        teamRed = true;
-                        teamBlue = false;
-                    }
-                }
+
 
             }
 
@@ -133,21 +133,10 @@
 
             //This function is called elsewhere as the body of a while loop, therefore this is an iterative OP mode.
             @Override
-            public void loop() {
+            public void loop()
+            {
 
-                //Retrieves color info from the sensor
-                /*int red = cSensor.red();
-                int green = cSensor.green();
-                int blue = cSensor.blue();
 
-                //Prints data from above the the driver station
-                telemetry.addData("Status", "Running: " + runtime.toString());
-                telemetry.addData("Red","" + red);
-                telemetry.addData("Green","" + green);
-                telemetry.addData("Blue","" + blue); */
-
-                //Assigns gamepad controls to shorter variables.
-                //There is some trial and error here as sometimes the joysticks have inverted values
                 double leftX = gamepad1.left_stick_x;
                 double leftY = -gamepad1.left_stick_y;
 
@@ -156,14 +145,67 @@
 
                 double throttle = gamepad1.right_trigger;
 
-//                boolean rightColor = false;
-//
-//                //Also part of the unused assisted button pushing, checks for the highest color value
-//                // Alternatively set to number based off of calibration
-//                if(teamBlue)
-//                    rightColor = blue > red && blue > green;
-//                if(teamRed)
-//                    rightColor = red > blue && red > green;
+                float left = -gamepad1.left_stick_y;//gets information from joystick
+                float right = -gamepad1.right_stick_y;
+
+
+                right = Range.clip(right, -1, 1);//clips values into section
+                left = Range.clip(left, -1, 1);
+
+                // scale the joystick value to make it easier to control
+                // the robot more precisely at slower speeds.
+
+                right = (float) scaleInput(right);
+                left = (float) scaleInput(left);
+
+
+                left = (float) (left * .9);
+                right = (float) (right * .9);
+
+                if (gamepad2.a)
+                {
+
+                    //rolls in
+                    telemetry.addData("Status", "button a");
+                    telemetry.update();
+                    frontintake.setPower(.1);//Motor one goes counter clockwise//
+
+                }
+
+                if (gamepad2.b) {
+                    telemetry.addData("Status", "button b");
+                    telemetry.update();//roll balls out
+                    frontintake.setPower(-.1);//otor one goes counter clockwise//
+
+                }
+                if (gamepad2.x) {//stops
+                    frontintake.setPower(0); //Motor one goes counter clockwise//
+
+                }
+
+
+                if (gamepad2.y)
+                {
+                    //telemetry.update();
+                    encoderDrive(DRIVE_SPEED, 0.2, 10.0);
+                    telemetry.addData("Status", "button y");    //
+                    telemetry.update();
+                }
+
+                if (gamepad2.right_stick_button) {
+                    //telemetry.update();
+                    encoderDrive(DRIVE_SPEED, 4.7, 10.0);
+                    telemetry.addData("Status", "right stick button");    //
+                    telemetry.update();
+                }
+
+                if (gamepad2.left_stick_button) {
+
+                    encoderDrive(DRIVE_SPEED, -4.7, 3.0);
+                    telemetry.addData("Status", "left stick button");    //
+                    telemetry.update();
+                }
+
 
                 //If the right joystick is pushed more than half right then rotate clockwise
                 if (rightX >= .5) {
@@ -246,104 +288,98 @@
                 else {
                     turingBot.forward(0);
                 }
-                if (gamepad2.a) {
 
-                    turingBot.lifting(1);
-
-                }
-                if (gamepad2.b) {
-
-                    turingBot.lifting(1);
-
-                }
-
-                if (gamepad2.y) {
-
-                    turingBot.lifting(1);
-                }
 
             }
 
-                public void ServoController() {
+            public void encoderDrive(double speed,
+                                     double liftInches,
+                                     double timeoutS) {
 
+
+                int newLiftTarget;
+
+                // Determine new target position, and pass to motor controller
+                newLiftTarget = robot.lift.getCurrentPosition() + (int) (liftInches * COUNTS_PER_INCH);
+
+                robot.lift.setTargetPosition(newLiftTarget);
+
+                // Turn On RUN_TO_POSITION
+                robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                // reset the timeout time and start motion.
+                runtime.reset();
+                robot.lift.setPower(Math.abs(speed));
+
+
+                // keep looping while we are still active, and there is time left, and both motors are running.
+                // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+                // its target position, the motion will stop.  This is "safer" in the event that the robot will
+                // always end the motion as soon as possible.
+                // However, if you require that BOTH motors have finished their moves before the robot continues
+                // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+                while (
+                        (runtime.seconds() < timeoutS) &&
+                        (robot.lift.isBusy())) {
 
                 }
+                // Stop all motion;
+                robot.lift.setPower(0);
 
 
-                //While dpad up is held down raise the lift
-               /*f(gamepad1.dpad_up){
-                    turingBot.elevate(1);
-
-                    telemetry.addData("Elevator", "Active");
-                }*/
-
-                //Stop when let go
-               /*lse{
-                    turingBot.elevate(0);
-                }*/
-
-                /*Some of the joystick inversion problems come in here and flipping it when
-                assigning the variable never seemed to work. Possibly fixed in the present*/
-                //If the right joystick is at least half down: lower the claws at 1/10 the magnitude of joystick movement
-//                if(rightY >= .5){
-//                    turingBot.moveClaws(rightY * .1);
-//
-//                    telemetry.addData("Claw", "Lowering");
-//                }
-//                //If the right joystick is at least half up: raise the claws at 1/2 the magnitude of joystick movement
-//                else if(rightY <= -.5){
-//                    turingBot.moveClaws(rightY * .5);
-//
-//                    telemetry.addData("Claw", "Raising");
-//                }
-//                //If the joystick is not moved half in either direction then don't move
-//                else{
-//                    turingBot.moveClaws(0);
-//                }
-
-                //Assisted button pushing, I ended up disabling this because I was too good for that
-                /*if(gamepad1.left_bumper) {
-                    if(rightColor)
-                        poker.setPosition(.5);
-                    else
-                        telemetry.addData("Nope.","Wrong Color");
-                }*/
-
-                //Extend button pusher
-             /* if(gamepad1.left_bumper) {
-
-                    poker.setPosition(.5);
-                }
-
-                //Retract button pusher
-                else (gamepad1.left_trigger > .49){
-                    poker.setPosition(.9); // 1= inwards; .5 = outwards
-                }
-                */
-//
-//                //Raises the servo wall to catch the ball
-//                if(gamepad1.dpad_right){
-//                    bBsktServo.setPosition(1);
-//                    fBsktServo.setPosition(0);
-//                }
-//
-//                //Puts the servo wall in resting position
-//                else if(gamepad1.dpad_down){
-//                    bBsktServo.setPosition(.25); //1 = in; 0 = out
-//                    fBsktServo.setPosition(.75); //0 = in;1 = out
-//                }
-//
-//                //Pushes the ball out
-//                else if(gamepad1.dpad_left){
-//                    bBsktServo.setPosition(0);
-//                    fBsktServo.setPosition(1);
-//                }
+                // Turn off RUN_TO_POSITION
+                robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
+                //  sleep(250);   // optional pause after each move
 
-            @Override
-            public void stop() {
+
+                // keep looping while we are still active, and there is time left, and both motors are running.
+                // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+                // its target position, the motion will stop.  This is "safer" in the event that the robot will
+                // always end the motion as soon as possible.
+                // However, if you require that BOTH motors have finished their moves before the robot continues
+                // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+
+                // Stop all motion;
+
+
+                //  sleep(250);   // optional pause after each move
+
+
                 turingBot.shutdown();
+            }
+
+
+
+            double scaleInput(double dVal) {
+                double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
+                        0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
+                // get the corresponding index for the scaleInput array.
+                int index = (int) (dVal * 16.0);
+
+                // index should be positive.
+                if (index < 0) {
+                    index = -index;
+                }
+
+                // index cannot exceed size of array minus 1.
+                if (index > 16) {
+                    index = 16;
+                }
+
+                // get value from the array.
+                double dScale = 0.0;
+                if (dVal < 0) {
+                    dScale = -scaleArray[index];
+                } else {
+                    dScale = scaleArray[index];
+                }
+
+                // return scaled value.
+                return dScale;
             }
 
         }

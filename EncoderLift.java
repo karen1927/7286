@@ -77,7 +77,7 @@ public class EncoderLift extends LinearOpMode {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (3.1415);
     static final double DRIVE_SPEED = 0.2;
     //static final double     TURN_SPEED              = 0.5;
-
+        int counter=0;
     @Override
     public void runOpMode() {
 
@@ -89,7 +89,7 @@ public class EncoderLift extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
 
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -99,25 +99,29 @@ public class EncoderLift extends LinearOpMode {
         {
             if (gamepad2.x) {
                 //telemetry.update();
-                encoderDrive(DRIVE_SPEED, 2.2, 10.0);
+                encoderDrive(DRIVE_SPEED, 2.2, 10.0);//0.2
+                telemetry.addData("Status", "button x");    //
+                telemetry.update();
             }
-            if (gamepad2.a) {
-                //telemetry.update();
-                encoderDrive(DRIVE_SPEED, -2.2, 10.0);
-            }
-            /*
             if (gamepad2.y) {
-
-                encoderDrive(DRIVE_SPEED, 6.5, 3.0);
+                encoderDrive(DRIVE_SPEED, 4.7, 10.0);
+                telemetry.addData("Status", "button y");    //
+                telemetry.update();
             }
 
             if (gamepad2.b) {
-                encoderDrive(DRIVE_SPEED, 12.5, 3.0);
+
+
+                encoderDrive(DRIVE_SPEED, -4.7, 3.0);
+                telemetry.addData("Status", "button ");    //
+                telemetry.update();
             }
             if (gamepad2.a) {
-                encoderDrive(DRIVE_SPEED, -12.5, 2.0);
+
+
+                robot.lift.setPower(1);
             }
-            */
+
         }
 
 
@@ -154,15 +158,9 @@ public class EncoderLift extends LinearOpMode {
             // reset the timeout time and start motion.
             runtime.reset();
             robot.lift.setPower(Math.abs(speed));
-
-
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            telemetry.addData("counter", counter);    //
+            telemetry.update();
+            counter++;
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (robot.lift.isBusy())) {
@@ -174,6 +172,14 @@ public class EncoderLift extends LinearOpMode {
                 telemetry.update();
                 */
             }
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
 
             // Stop all motion;
             robot.lift.setPower(0);
