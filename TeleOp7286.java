@@ -145,22 +145,15 @@
 
                 double throttle = gamepad1.right_trigger;
 
-                float left = -gamepad1.left_stick_y;//gets information from joystick
-                float right = -gamepad1.right_stick_y;
 
 
-                right = Range.clip(right, -1, 1);//clips values into section
-                left = Range.clip(left, -1, 1);
+
 
                 // scale the joystick value to make it easier to control
                 // the robot more precisely at slower speeds.
-
-                right = (float) scaleInput(right);
-                left = (float) scaleInput(left);
-
-
-                left = (float) (left * .9);
-                right = (float) (right * .9);
+                throttle = Range.clip(throttle, 0, 1);//clips values into section
+                throttle = (float) scaleInput(throttle);
+                throttle = (float) (throttle * .9);
 
                 if (gamepad2.dpad_left)
                 {
@@ -178,6 +171,7 @@
                     frontintake.setPower(-.1);//otor one goes counter clockwise//
 
                 }
+
                 else  {//stops
                     frontintake.setPower(0); //Motor one goes counter clockwise//
 
@@ -205,13 +199,20 @@
 
                 if (gamepad2.a) {
 
-                    if(counterUp>0) {
+                    if(counterUp>0)
+                    {
 
                         encoderDrive(DRIVE_SPEED, -4.7, 3.0);
                         counterUp--;
                     }
                     telemetry.addData("Status", "left stick button");    //
                     telemetry.update();
+                }
+                else if (gamepad2.left_stick_button && gamepad2.right_stick_button)
+                {
+                    encoderDrive(DRIVE_SPEED, -4.7, 3.0);
+                    counterUp=0;
+
                 }
 
 
