@@ -80,7 +80,7 @@
             public DcMotor  frontintake;
             //Initializing bot object
             private Bot turingBot;
-
+            int counterUp=0;
 
 
 
@@ -162,7 +162,7 @@
                 left = (float) (left * .9);
                 right = (float) (right * .9);
 
-                if (gamepad2.a)
+                if (gamepad2.dpad_left)
                 {
 
                     //rolls in
@@ -172,36 +172,44 @@
 
                 }
 
-                if (gamepad2.b) {
+                else if (gamepad2.dpad_right) {
                     telemetry.addData("Status", "button b");
                     telemetry.update();//roll balls out
                     frontintake.setPower(-.1);//otor one goes counter clockwise//
 
                 }
-                if (gamepad2.x) {//stops
+                else  {//stops
                     frontintake.setPower(0); //Motor one goes counter clockwise//
 
                 }
 
 
+
+
                 if (gamepad2.y)
                 {
                     //telemetry.update();
-                    encoderDrive(DRIVE_SPEED, 0.2, 10.0);
-                    telemetry.addData("Status", "button y");    //
-                    telemetry.update();
-                }
 
-                if (gamepad2.right_stick_button) {
-                    //telemetry.update();
-                    encoderDrive(DRIVE_SPEED, 4.7, 10.0);
+                    if(counterUp<2)
+
+                    {
+                        encoderDrive(DRIVE_SPEED, 4.7, 10.0);
+                        counterUp++;
+                    }
+
                     telemetry.addData("Status", "right stick button");    //
                     telemetry.update();
+                    ;
+
                 }
 
-                if (gamepad2.left_stick_button) {
+                if (gamepad2.a) {
 
-                    encoderDrive(DRIVE_SPEED, -4.7, 3.0);
+                    if(counterUp>0) {
+
+                        encoderDrive(DRIVE_SPEED, -4.7, 3.0);
+                        counterUp--;
+                    }
                     telemetry.addData("Status", "left stick button");    //
                     telemetry.update();
                 }
