@@ -1,8 +1,8 @@
             package org.firstinspires.ftc.teamcode;
 
             import com.qualcomm.robotcore.hardware.DcMotor;
-            import com.qualcomm.robotcore.hardware.ServoController;
-            import com.qualcomm.robotcore.hardware.Servo;
+            //import com.qualcomm.robotcore.hardware.ServoController;
+            //import com.qualcomm.robotcore.hardware.Servo;
 
             public class Bot {
                 private DcMotor frontLeft;
@@ -10,15 +10,7 @@
                 private DcMotor backLeft;
                 private DcMotor backRight;
 
-                public Servo pushButton;//Declares servo hooks on front for bars
-
-
-
-
-
-
-
-
+                //public Servo pushButton;//Declares servo hooks on front for bars
 
                // private DcMotor frontClaw;
                // private DcMotor backClaw;
