@@ -30,14 +30,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.firstinspires;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+//import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
+//import com.qualcomm.robotcore.hardware.Servo;
+//import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TeleOp7286", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="TeleOp7286", group="Iterative OpMode")  // @Autonomous(...) is the other common choice
 
 public class TeleOp7286 extends OpMode
 {
@@ -63,11 +63,11 @@ public class TeleOp7286 extends OpMode
     WW7286_SY1718_Bot robot;
 
     /*  Adjustment values for the encoded lift  */
-    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: ANDYMARK Motor Encoder
+    // final double COUNTS_PER_MOTOR_REV = 1120;    // eg: ANDYMARK Motor Encoder
     // static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 1.0 ;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (3.1415);
-    static final double DRIVE_SPEED = 0.2;
+    //static final double     WHEEL_DIAMETER_INCHES   = 1.0 ;     // For figuring circumference
+    static final double COUNTS_PER_INCH = 535/2; // num of ticks to move one inch
+    //static final double DRIVE_SPEED = 0.2;
     /*  END - Adjustment values for the encoded lift  */
 
 
@@ -75,18 +75,18 @@ public class TeleOp7286 extends OpMode
 
     //Initializing bot object
 
-    int counterUp=0;
-    double totalHeight = 0;
+    //private int counterUp = 0;
+    //double totalHeight = 0;
 
 
     @Override
     public void init()
     {
         robot = new WW7286_SY1718_Bot(
-                hardwareMap.dcMotor.get("frontLeft"),
-                hardwareMap.dcMotor.get("frontRight"),
-                hardwareMap.dcMotor.get("backLeft"),
-                hardwareMap.dcMotor.get("backRight"),
+                hardwareMap.dcMotor.get("FL"),
+                hardwareMap.dcMotor.get("FR"),
+                hardwareMap.dcMotor.get("BL"),
+                hardwareMap.dcMotor.get("BR"),
                 hardwareMap.dcMotor.get("intakefront"),
                 hardwareMap.dcMotor.get("lift")
         );
@@ -123,106 +123,49 @@ public class TeleOp7286 extends OpMode
     @Override
     public void loop() {
 
-        /*    BEGIN -- Game Pad 1 -- BEGIN    */
-        double leftX = gamepad1.left_stick_x;
-        double leftY = -gamepad1.left_stick_y;
+        // left stick controls direction
+        // right stick X controls rotation
 
-        double rightX = gamepad1.right_stick_x;
-        double rightY = gamepad1.right_stick_y;
+        float gamepad1LeftY = -gamepad1.left_stick_y;
+        float gamepad1LeftX = gamepad1.left_stick_x;
+        float gamepad1RightX = gamepad1.right_stick_x;
 
-        double throttle = gamepad1.right_trigger;
+        // holonomic formulas
 
-        // scale the joystick value to make it easier to control
-        // the robot more precisely at slower speeds.
-        throttle = Range.clip(throttle, 0, 1);//clips values into section
-        throttle = (float) scaleInput(throttle);
-        throttle = (float) (throttle * .9);
+        float FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        float FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
-        //If the right joystick is pushed more than half right then rotate clockwise
-        if (rightX >= .5)
-        {
-            robot.clockWise(throttle);
-            telemetry.addData("Direction", "Clock-wise");
-        }
+        // clip the right/left values so that the values never exceed +/- 1
+        FrontRight = Range.clip(FrontRight, -1, 1);
+        FrontLeft = Range.clip(FrontLeft, -1, 1);
+        BackLeft = Range.clip(BackLeft, -1, 1);
+        BackRight = Range.clip(BackRight, -1, 1);
 
-        //If the right joystick is pushed more than half left then rotate counter clockwise
-        else if (rightX <= -0.5)
-        {
-            robot.counterClockWise(throttle);
-            telemetry.addData("Direction", "Counter Clock-wise");
-        }
+        // write the values to the motors
+        robot.frontRight.setPower(FrontRight);
+        robot.frontLeft.setPower(FrontLeft);
+        robot.backLeft.setPower(BackLeft);
+        robot.backRight.setPower(BackRight);
 
-        //If the left joystick is pushed more than half left and less than half up or down then go left
-        else if (leftX <= -.5 && (leftY < .5 && leftY > -.5))
-        {
-            robot.left(throttle);
-            telemetry.addData("Direction", "Left");
-        }
 
-        //If the left joystick is pushed more than half right and less than half up or down then go right
-        else if (leftX >= .5 && (leftY < .5 && leftY > -.5))
-        {
-            robot.right(throttle);
-            telemetry.addData("Direction", "Right");
-        }
+      /*
+       * Telemetry for debugging
+       */
+        telemetry.addData("Text", "*** Robot Data***");
+        telemetry.addData("Joy XL YL XR",  String.format("%.2f", gamepad1LeftX) + " " +
+                String.format("%.2f", gamepad1LeftY) + " " +  String.format("%.2f", gamepad1RightX));
+        telemetry.addData("f left pwr",  "front left  pwr: " + String.format("%.2f", FrontLeft));
+        telemetry.addData("f right pwr", "front right pwr: " + String.format("%.2f", FrontRight));
+        telemetry.addData("b right pwr", "back right pwr: " + String.format("%.2f", BackRight));
+        telemetry.addData("b left pwr", "back left pwr: " + String.format("%.2f", BackLeft));
 
-        //If the left joystick is at least half up
-        else if (leftY >= .5)
-        {
-            //Check to see if it is also half right, if so go Forward and Right
-            if (leftX > .5) {
-                robot.forRight(throttle);
-                telemetry.addData("Direction", "Forward-Right");
-            }
-
-            //If not, check if it is also half left, if so go Forward and Left
-            else if (leftX < -.5) {
-                robot.forLeft(throttle);
-
-                telemetry.addData("Direction", "Forward-Left");
-            }
-
-            //If they didn't move it left or right, just go forward
-            else if (leftX >= -.5 && leftX <= .5) {
-                robot.forward(throttle);
-
-                telemetry.addData("Direction", "Forward");
-            }
-        }
-
-        //Opposite of the previous chain
-        //Check to see if the left joystick is at least half down
-        else if (leftY <= -.5) {
-
-            //If it is also half right then go back and right
-            if (leftX > .5) {
-                robot.backwRight(throttle);
-
-                telemetry.addData("Direction", "Back-Right");
-            }
-
-            //If it is also half left then go back and left
-            else if (leftX < -.5) {
-                robot.backwLeft(throttle);
-
-                telemetry.addData("Direction", "Back-Left");
-            }
-
-            //If it was not moved left or right just go back
-            else if (leftX >= -.5 && leftX <= .5) {
-                robot.back(throttle);
-
-                telemetry.addData("Direction", "Back");
-            }
-        }
-        //If the joystick was not moved at least halfway in any direction then stay still
-        else {
-            robot.forward(0);
-        }
 
         /*    END  -- Game Pad 1  -- END   */
 
 
+//for grippers:
 
         if (gamepad2.dpad_left) {
             //rolls in
@@ -240,143 +183,78 @@ public class TeleOp7286 extends OpMode
 
         }
 
+//for lift:
 
-        if (gamepad2.y)
+        if (gamepad2.y) //move up
         {
-            //telemetry.update();
+            liftArms(.5, 7.0);
 
-            if (counterUp < 2)
-            {
-                encoderDrive(DRIVE_SPEED, 4.7, 10.0);
-                counterUp++;
-                totalHeight += 4.7;
-            }
+            // totalHeight +=2.0;
 
-            telemetry.addData("Status", "right stick button");    //
-            telemetry.update();
-            ;
 
+            //telemetry.addData("counterUp: ",counterUp);
         }
 
-        if (gamepad2.a)
+
+        if (gamepad2.a)//move down
         {
-            if (counterUp > 0) {
-                encoderDrive(DRIVE_SPEED, -4.7, 3.0);
-                counterUp--;
-                totalHeight -= 4.7;
-            }
-            telemetry.addData("Status", "left stick button");    //
-            telemetry.update();
+            liftArms(.5, -7.0);
+
+            // totalHeight -= 2.0;
+
+
+            //telemetry.addData("counterUp: ",counterUp);
+            //telemetry.addData("Status", "left stick button");    //
         }
 
-        if (gamepad2.dpad_down)
-        {
-            robot.lift.setPower(-.4);
-
-            if (gamepad2.dpad_up)
-            {
-                robot.lift.setPower(.4);
-            }
-            else
-            {
-                robot.lift.setPower(0);
-            }
-
-        /*
-        if (gamepad2.left_stick_button && gamepad2.right_stick_button)
-        {
-            encoderDrive(DRIVE_SPEED, -totalHeight, 3.0);
-            counterUp=0;
-            totalHeight = 0;
-        }
-        */
-
-            if (gamepad2.right_bumper)
-            {
-                encoderDrive(DRIVE_SPEED, 1.0, 3.0);
-                totalHeight = 1.0;
-            }
-
-            if (gamepad2.left_bumper)
-            {
-                encoderDrive(DRIVE_SPEED, -totalHeight, 3.0);
-                totalHeight = 0;
-            }
-
-
-
-
-
-        }
+        telemetry.addData("Current encoder value: ", robot.lift.getCurrentPosition()) ;
     }
 
 
-
-    public void encoderDrive(double speed,
-                             double liftInches,
-                             double timeoutS) {
-
-
-        int newLiftTarget;
+    public void liftArms(double speed, double inches)
+    {
+        telemetry.addData("BEFORE encoder value: ", robot.lift.getCurrentPosition());
 
         // Determine new target position, and pass to motor controller
-        newLiftTarget = robot.lift.getCurrentPosition() + (int) (liftInches * COUNTS_PER_INCH);
+        int newLiftTarget = robot.lift.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+        //int newLiftTarget = robot.lift.getCurrentPosition() + 10;
+        //int newLiftTarget = 1600;
+        telemetry.addData("New lift target: ", newLiftTarget);
 
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //if (newLiftTarget >= 0 && newLiftTarget <= 2407 )//checks if the next position will be between 0 and 9 inches
+        //{
         robot.lift.setTargetPosition(newLiftTarget);
-
-        // Turn On RUN_TO_POSITION
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(speed);
+        //}
 
-        // reset the timeout time and start motion.
-        runtime.reset();
-        robot.lift.setPower(Math.abs(speed));
+        if (!robot.lift.isBusy())
+            robot.lift.setPower(0);
+
+        /*if (newLiftTarget >= 0 && newLiftTarget <= 1337 )//checks if the next position will be between 0 and 5 inches
+        {*/
+        // Turn On RUN_TO_POSITION
 
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+        // Start motion
 
-        while ( (runtime.seconds() < timeoutS) && (robot.lift.isBusy()) )
-        {
-            //do nothing??
-        }
 
-        // Stop all motion;
-        robot.lift.setPower(0);
-
+        // Stop all motion - Is this line even necessary?
+        //robot.lift.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        //  sleep(250);   // optional pause after each move
-
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-
-
-        // Stop all motion;
-
-
-        //  sleep(250);   // optional pause after each move
-
-
-        robot.shutdown();
     }
 
 
 
-    double scaleInput(double dVal) {
-        double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
+
+
+
+    double scaleInput(double dVal)  {
+        double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
+                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
+
         // get the corresponding index for the scaleInput array.
         int index = (int) (dVal * 16.0);
 

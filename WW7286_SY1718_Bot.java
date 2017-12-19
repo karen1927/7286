@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.firstinspires;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class WW7286_SY1718_Bot
 {
-    private DcMotor frontLeft;
-    private DcMotor frontRight;
-    private DcMotor backLeft;
-    private DcMotor backRight;
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
 
     public DcMotor frontIntake;
     public DcMotor lift;
